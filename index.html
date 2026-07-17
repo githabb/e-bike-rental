@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Bike Rentals | Сучасна оренда електровелосипедів</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ==================== НАВІГАЦІЯ/ШАПКА ==================== -->
+    <header class="header">
+      <div class="container">
+        <div class="header__content">
+          <!-- Логотип -->
+          <div class="logo">
+            <span class="logo__icon">⚡</span>
+            <span class="logo__text">E-Bike</span>
+          </div>
+
+          <!-- Навігація -->
+          <nav class="nav">
+            <a href="#hero" class="nav__link">Головна</a>
+            <a href="#gallery" class="nav__link">Велосипеди</a>
+            <a href="#benefits" class="nav__link">Переваги</a>
+            <a href="#pricing" class="nav__link">Ціни</a>
+            <a href="#reviews" class="nav__link">Відгуки</a>
+            <a href="#contact" class="nav__link">Контакти</a>
+          </nav>
+
+          <!-- Кнопки в шапці -->
+          <div class="header__actions">
+            <a
+              href="http://localhost:3000/profile.html"
+              class="btn btn--secondary"
+            >
+              👤 Профіль абонента
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== ГОЛОВНИЙ ЕКРАН (HERO) ==================== -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero__content">
+          <h1 class="hero__title">Відчуй свободу з електричним вітром</h1>
+          <p class="hero__subtitle">
+            Швидко, екологічно та із задоволенням досліджуй місто на сучасному
+            E-Bike
+          </p>
+          <div class="hero__buttons">
+            <button class="btn btn--primary btn--large" id="mainBookBtn">
+              Забронювати зараз
+            </button>
+            <button class="btn btn--secondary btn--large" id="learnMoreBtn">
+              Дізнатися більше
+            </button>
+          </div>
+          <div class="hero__stats">
+            <div class="hero__stat">⭐ 4.9 рейтинг</div>
+            <div class="hero__stat">👥 5000+ клієнтів</div>
+            <div class="hero__stat">🚴 250 велосипедів</div>
+          </div>
+        </div>
+
+        <!-- Героїчне зображення -->
+        <div class="hero__image">
+          <div class="bike-placeholder">🚴‍♂️</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== СТАТИСТИКА ==================== -->
+    <section class="stats" id="stats">
+      <div class="container">
+        <div class="stats__grid">
+          <div class="stat-item">
+            <div class="stat-item__number" data-count="5000">0</div>
+            <div class="stat-item__label">Щасливих клієнтів</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__number" data-count="250">0</div>
+            <div class="stat-item__label">Велосипедів</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__number" data-count="50000">0</div>
+            <div class="stat-item__label">км проїхано</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__number" data-count="4.9">0</div>
+            <div class="stat-item__label">Рейтинг у магазині</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ГАЛЕРЕЯ ВЕЛОСИПЕДІВ ==================== -->
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <h2 class="section-title">Наш парк велосипедів</h2>
+
+        <div class="gallery__grid">
+          <div class="gallery-item">
+            <div class="gallery-item__image">🚴‍♂️</div>
+            <h3 class="gallery-item__title">E-Bike Classic</h3>
+            <p class="gallery-item__description">
+              Легкий і маневрений для міста
+            </p>
+            <div class="gallery-item__features">
+              <span>⚡ 50 км/год</span>
+              <span>🔋 100 км</span>
+              <span>⏱️ 2 години зарядки</span>
+            </div>
+          </div>
+
+          <div class="gallery-item gallery-item--featured">
+            <div class="gallery-item__badge">🌟 Найкращий вибір</div>
+            <div class="gallery-item__image">🚴‍♀️</div>
+            <h3 class="gallery-item__title">E-Bike Premium</h3>
+            <p class="gallery-item__description">
+              Максимальний комфорт і стиль
+            </p>
+            <div class="gallery-item__features">
+              <span>⚡ 60 км/год</span>
+              <span>🔋 150 км</span>
+              <span>⏱️ 1.5 години</span>
+            </div>
+          </div>
+
+          <div class="gallery-item">
+            <div class="gallery-item__image">🛴</div>
+            <h3 class="gallery-item__title">E-Bike Cargo</h3>
+            <p class="gallery-item__description">
+              Для перевезення вантажів і багажу
+            </p>
+            <div class="gallery-item__features">
+              <span>⚡ 40 км/год</span>
+              <span>🔋 120 км</span>
+              <span>📦 50 кг вантажу</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ПЕРЕВАГИ ==================== -->
+    <section class="benefits" id="benefits">
+      <div class="container">
+        <h2 class="section-title">Чому обирають E-Bike?</h2>
+
+        <div class="benefits__grid">
+          <div class="benefit-card">
+            <div class="benefit-card__icon">⚡</div>
+            <h3 class="benefit-card__title">Супершвидко</h3>
+            <p class="benefit-card__text">
+              Приїжджай куди завгодно за лічені хвилини. Електричний привід
+              дозволяє розвивати швидкість до 50 км/год.
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-card__icon">🌿</div>
+            <h3 class="benefit-card__title">Екологічно</h3>
+            <p class="benefit-card__text">
+              Нульові викиди. Подорожуй, не забруднюючи довкілля і не створюючи
+              шум у місті.
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-card__icon">💰</div>
+            <h3 class="benefit-card__title">Економно</h3>
+            <p class="benefit-card__text">
+              Дешевше за таксі та паркування. Один день оренди коштує як дві
+              чашки кави!
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-card__icon">🔋</div>
+            <h3 class="benefit-card__title">Тривала батарея</h3>
+            <p class="benefit-card__text">
+              Запас ходу до 100 км. Повна зарядка займає лише 2 години. Не
+              хвилюйся про батарею!
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-card__icon">🛡️</div>
+            <h3 class="benefit-card__title">Безпечно</h3>
+            <p class="benefit-card__text">
+              Усі велосипеди застраховані та регулярно обслуговуються. Отримай
+              захист від пошкоджень.
+            </p>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-card__icon">📱</div>
+            <h3 class="benefit-card__title">Просто бронювати</h3>
+            <p class="benefit-card__text">
+              Бронь через застосунок за 30 секунд. Знайди велосипед на карті і
+              вирушай у путь.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ЦІНОВІ ПЛАНИ ==================== -->
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <h2 class="section-title">Наші ціни</h2>
+
+        <div class="pricing__grid">
+          <div class="pricing-card">
+            <h3 class="pricing-card__title">1 година</h3>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">50</span>
+              <span class="pricing-card__currency">₴</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li>✅ Страховка включена</li>
+              <li>✅ Шолом у подарунок</li>
+              <li>✅ GPS навігація</li>
+              <li>✅ Техпідтримка 24/7</li>
+            </ul>
+            <button
+              class="btn btn--primary btn--large pricing-card__btn"
+              data-hours="1"
+            >
+              Обрати
+            </button>
+          </div>
+
+          <div class="pricing-card pricing-card--popular">
+            <div class="pricing-card__badge">🔥 Популярно</div>
+            <h3 class="pricing-card__title">4 години</h3>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">150</span>
+              <span class="pricing-card__currency">₴</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li>✅ Все з 1 години</li>
+              <li>✅ Безкоштовне паркування</li>
+              <li>✅ Телефон для зв'язку</li>
+              <li>✅ Пріоритетна підтримка</li>
+            </ul>
+            <button
+              class="btn btn--primary btn--large pricing-card__btn"
+              data-hours="4"
+            >
+              Обрати
+            </button>
+          </div>
+
+          <div class="pricing-card">
+            <h3 class="pricing-card__title">24 години</h3>
+            <div class="pricing-card__price">
+              <span class="pricing-card__amount">250</span>
+              <span class="pricing-card__currency">₴</span>
+            </div>
+            <ul class="pricing-card__features">
+              <li>✅ Все включено</li>
+              <li>✅ Пріоритетна підтримка</li>
+              <li>✅ -20% на наступну оренду</li>
+              <li>✅ Преміум велосипед</li>
+            </ul>
+            <button
+              class="btn btn--primary btn--large pricing-card__btn"
+              data-hours="24"
+            >
+              Обрати
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ВІДГУКИ КЛІЄНТІВ ==================== -->
+    <section class="reviews" id="reviews">
+      <div class="container">
+        <h2 class="section-title">Що кажуть наші клієнти</h2>
+
+        <div class="reviews__grid">
+          <div class="review-card">
+            <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-card__text">
+              "Це просто магія! Швидко, зручно і весело. Об'їхала все місто на
+              E-Bike за один день!"
+            </p>
+            <div class="review-card__author">
+              <div class="review-card__avatar">👩</div>
+              <div>
+                <div class="review-card__name">Анна Сидоренко</div>
+                <div class="review-card__role">Мандрівниця</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-card__text">
+              "Замість таксі беру E-Bike. Дешевше, швидше і ще й здоров'я
+              зміцнюю. Рекомендую!"
+            </p>
+            <div class="review-card__author">
+              <div class="review-card__avatar">👨</div>
+              <div>
+                <div class="review-card__name">Максим Іванов</div>
+                <div class="review-card__role">Бізнесмен</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-card__text">
+              "Сервіс на 5+! Велосипеди нові, батарея тримає довше, ніж
+              обіцяють. Дякую!"
+            </p>
+            <div class="review-card__author">
+              <div class="review-card__avatar">👩‍🦰</div>
+              <div>
+                <div class="review-card__name">Еліна Петренко</div>
+                <div class="review-card__role">Студентка</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-card__text">
+              "Просто дивовижно! Застосунок працює супер, велосипеди завжди в
+              ідеальному стані!"
+            </p>
+            <div class="review-card__author">
+              <div class="review-card__avatar">🧑</div>
+              <div>
+                <div class="review-card__name">Давид Коваль</div>
+                <div class="review-card__role">Розробник</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-card__text">
+              "Чудова альтернатива автомобілю. Економлю на паркуванні та
+              бензині. Win-win!"
+            </p>
+            <div class="review-card__author">
+              <div class="review-card__avatar">👩‍💼</div>
+              <div>
+                <div class="review-card__name">Ольга Мартинова</div>
+                <div class="review-card__role">Підприємниця</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
+            <p class="review-card__text">
+              "Орендую щодня для роботи. Пробував різні сервіси - цей
+              найкращий!"
+            </p>
+            <div class="review-card__author">
+              <div class="review-card__avatar">🧔</div>
+              <div>
+                <div class="review-card__name">Ігор Шевченко</div>
+                <div class="review-card__role">Кур'єр</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ФОРМА БРОНЮВАННЯ ==================== -->
+    <section class="booking" id="booking">
+      <div class="container">
+        <div class="booking__wrapper">
+          <div class="booking__info">
+            <h2 class="section-title booking__title">Готовий до пригоди?</h2>
+            <p class="booking__subtitle">
+              Заповни форму, і ми зв'яжемося з тобою протягом 5 хвилин з
+              пропозицією найкращих велосипедів.
+            </p>
+            <div class="booking__perks">
+              <div class="perk">✨ Безкоштовна консультація</div>
+              <div class="perk">🛡️ Страховка включена</div>
+              <div class="perk">📱 Легко бронювати</div>
+              <div class="perk">⚡ Швидка доставка</div>
+            </div>
+          </div>
+
+          <form class="booking__form" id="bookingForm">
+            <div class="form-group">
+              <label for="name" class="form-label">Як тебе звати?</label>
+              <input
+                type="text"
+                id="name"
+                class="form-input"
+                placeholder="Іван Петров"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Електронна пошта</label>
+              <input
+                type="email"
+                id="email"
+                class="form-input"
+                placeholder="ivan@example.com"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone" class="form-label">Номер телефону</label>
+              <input
+                type="tel"
+                id="phone"
+                class="form-input"
+                placeholder="+380 (50) 123-45-67"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="date" class="form-label"
+                >Бажана дата бронювання</label
+              >
+              <input type="date" id="date" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+              <label for="duration" class="form-label">На скільки годин?</label>
+              <select id="duration" class="form-input" required>
+                <option value="">Обери тривалість</option>
+                <option value="1">1 година - 50 ₴</option>
+                <option value="4">4 години - 150 ₴</option>
+                <option value="8">8 годин - 300 ₴</option>
+                <option value="24">24 години - 250 ₴</option>
+              </select>
+            </div>
+
+            <!-- Динамічний розрахунок ціни -->
+            <div id="priceDisplay" class="price-display"></div>
+
+            <button type="submit" class="btn btn--primary btn--large">
+              Забронювати E-Bike
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ПІДВАЛ ==================== -->
+    <footer class="footer" id="contact">
+      <div class="container">
+        <div class="footer__content">
+          <div class="footer__section">
+            <h3 class="footer__title">E-Bike Rentals</h3>
+            <p>
+              Найкращий спосіб подорожувати містом. Швидко, екологічно, із
+              задоволенням!
+            </p>
+          </div>
+
+          <div class="footer__section">
+            <h3 class="footer__title">Контакти</h3>
+            <p>📍 Київ, вул. Незалежності, 1</p>
+            <p>☎️ +380 (50) 123-45-67</p>
+            <p>✉️ info@e-bike.ua</p>
+          </div>
+
+          <div class="footer__section">
+            <h3 class="footer__title">Швидкі посилання</h3>
+            <a href="#hero" class="footer__link">Головна</a>
+            <a href="#gallery" class="footer__link">Велосипеди</a>
+            <a href="#pricing" class="footer__link">Ціни</a>
+            <a href="#reviews" class="footer__link">Відгуки</a>
+          </div>
+
+          <div class="footer__section">
+            <h3 class="footer__title">Політика</h3>
+            <a href="#" class="footer__link">Про нас</a>
+            <a href="#" class="footer__link">Політика конфіденційності</a>
+            <a href="#" class="footer__link">Умови використання</a>
+          </div>
+        </div>
+
+        <div class="footer__bottom">
+          <p>&copy; 2024 E-Bike Rentals. Усі права захищені. ⚡</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Підключаємо JavaScript файл -->
+    <script src="script.js"></script>
+  </body>
+</html>

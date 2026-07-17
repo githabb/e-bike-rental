@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.env
+.env.*
+!.env.example
+database.sqlite
+database.sqlite-journal
+database.sqlite-wal
+database.sqlite-shm
+.git
+.gitignore
+*.md

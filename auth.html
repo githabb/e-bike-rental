@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вхід та Реєстрація - E-Bike</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+        color: #f0f0f0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .auth-box {
+        background-color: #1a1a1a;
+        border: 2px solid #00ff88;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+      }
+
+      .auth-box h2 {
+        color: #00ff88;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 28px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #888;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid rgba(0, 255, 136, 0.3);
+        border-radius: 8px;
+        background-color: #0f0f0f;
+        color: #f0f0f0;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #00ff88;
+        box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 16px;
+        margin-top: 10px;
+      }
+
+      .btn-primary {
+        background-color: #00ff88;
+        color: #0f0f0f;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+      }
+
+      .btn-secondary {
+        background-color: transparent;
+        color: #00ff88;
+        border: 2px solid #00ff88;
+      }
+
+      .btn-secondary:hover {
+        background-color: #00ff88;
+        color: #0f0f0f;
+      }
+
+      .toggle-text {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+        font-size: 14px;
+      }
+
+      .toggle-text button {
+        background: none;
+        border: none;
+        color: #00ff88;
+        cursor: pointer;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      .toggle-text button:hover {
+        color: #ffea00;
+      }
+
+      .error {
+        background-color: rgba(255, 0, 110, 0.2);
+        border: 2px solid #ff006e;
+        color: #ff006e;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .error.show {
+        display: block;
+      }
+
+      .success {
+        background-color: rgba(0, 255, 136, 0.2);
+        border: 2px solid #00ff88;
+        color: #00ff88;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .success.show {
+        display: block;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        color: #00ff88;
+      }
+
+      .back-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .back-link a {
+        color: #00ff88;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .back-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .auth-box {
+          padding: 24px;
+        }
+
+        .auth-box h2 {
+          font-size: 22px;
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ЛОГІН -->
+      <div id="loginForm" class="auth-box">
+        <h2>🔐 Вхід</h2>
+
+        <div id="loginError" class="error"></div>
+        <div id="loginSuccess" class="success"></div>
+
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="loginPhone">📱 Номер телефону</label>
+            <input
+              type="tel"
+              id="loginPhone"
+              placeholder="+380501234567"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">🔑 Пароль</label>
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Мінімум 6 символів"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Увійти</button>
+        </form>
+
+        <div class="toggle-text">
+          Немає акаунта?
+          <button type="button" onclick="toggleForms()">Зареєструйся</button>
+        </div>
+
+        <div class="back-link">
+          <a href="index.html">← Назад на головну</a>
+        </div>
+      </div>
+
+      <!-- РЕЄСТРАЦІЯ -->
+      <div id="registerForm" class="auth-box" style="display: none">
+        <h2>✨ Реєстрація</h2>
+
+        <div id="registerError" class="error"></div>
+        <div id="registerSuccess" class="success"></div>
+
+        <form onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label for="registerName">👤 Ім'я</label>
+            <input
+              type="text"
+              id="registerName"
+              placeholder="Твоє ім'я"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="registerEmail">📧 Email</label>
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="example@mail.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="registerPhone">📱 Номер телефону</label>
+            <input
+              type="tel"
+              id="registerPhone"
+              placeholder="+380501234567"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="registerPassword">🔑 Пароль</label>
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Мінімум 6 символів"
+              minlength="6"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="registerPasswordConfirm">🔑 Підтвердження пароля</label>
+            <input
+              type="password"
+              id="registerPasswordConfirm"
+              placeholder="Повтори пароль"
+              minlength="6"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Зареєструватися
+          </button>
+        </form>
+
+        <div class="toggle-text">
+          Вже є акаунт?
+          <button type="button" onclick="toggleForms()">Увійди</button>
+        </div>
+
+        <div class="back-link">
+          <a href="index.html">← Назад на головну</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:3000/api";
+
+      /**
+       * Перемкнути форми реєстрації та логіну
+       */
+      function toggleForms() {
+        document.getElementById("loginForm").style.display =
+          document.getElementById("loginForm").style.display === "none"
+            ? "block"
+            : "none";
+        document.getElementById("registerForm").style.display =
+          document.getElementById("registerForm").style.display === "none"
+            ? "block"
+            : "none";
+
+        // Очищаємо помилки
+        clearErrors();
+      }
+
+      /**
+       * Обробка логіну
+       */
+      async function handleLogin(event) {
+        event.preventDefault();
+        clearErrors();
+
+        const phone = document.getElementById("loginPhone").value;
+        const password = document.getElementById("loginPassword").value;
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, password }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Зберігаємо токен
+            localStorage.setItem("authToken", data.token);
+            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("userName", data.userName);
+
+            // Показуємо успіх
+            showSuccessMessage(
+              "loginSuccess",
+              "✅ Вхід успішний! Перенаправляємо...",
+            );
+
+            // Перенаправляємо на мої поїздки
+            setTimeout(() => {
+              window.location.href = "my-trips.html";
+            }, 1500);
+          } else {
+            showErrorMessage("loginError", data.error);
+          }
+        } catch (error) {
+          showErrorMessage(
+            "loginError",
+            "Помилка підключення: " + error.message,
+          );
+        }
+      }
+
+      /**
+       * Обробка реєстрації
+       */
+      async function handleRegister(event) {
+        event.preventDefault();
+        clearErrors();
+
+        const name = document.getElementById("registerName").value;
+        const email = document.getElementById("registerEmail").value;
+        const phone = document.getElementById("registerPhone").value;
+        const password = document.getElementById("registerPassword").value;
+        const passwordConfirm = document.getElementById(
+          "registerPasswordConfirm",
+        ).value;
+
+        if (password !== passwordConfirm) {
+          showErrorMessage("registerError", "Паролі не співпадають");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, phone, password }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            // Зберігаємо токен
+            localStorage.setItem("authToken", data.token);
+            localStorage.setItem("userId", data.userId);
+
+            showSuccessMessage(
+              "registerSuccess",
+              "✅ Реєстрація успішна! Перенаправляємо...",
+            );
+
+            setTimeout(() => {
+              window.location.href = "my-trips.html";
+            }, 1500);
+          } else {
+            showErrorMessage("registerError", data.error);
+          }
+        } catch (error) {
+          showErrorMessage(
+            "registerError",
+            "Помилка підключення: " + error.message,
+          );
+        }
+      }
+
+      /**
+       * Показати помилку
+       */
+      function showErrorMessage(elementId, message) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.classList.add("show");
+      }
+
+      /**
+       * Показати успіх
+       */
+      function showSuccessMessage(elementId, message) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.classList.add("show");
+      }
+
+      /**
+       * Очистити помилки
+       */
+      function clearErrors() {
+        document.querySelectorAll(".error, .success").forEach((el) => {
+          el.classList.remove("show");
+        });
+      }
+
+      /**
+       * Перевірити логін при завантаженні
+       */
+      function checkAuth() {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+          // Користувач вже залогінений, перенаправляємо на мої поїздки
+          window.location.href = "my-trips.html";
+        }
+      }
+
+      checkAuth();
+    </script>
+  </body>
+</html>
