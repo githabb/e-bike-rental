@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Профіль абонента - E-Bike</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #0f0f0f;
+        color: #f0f0f0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+      }
+
+      header {
+        background: linear-gradient(135deg, #00ff88, #ffea00);
+        padding: 30px 20px;
+        color: #0f0f0f;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      header h1 {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      header p {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px 40px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+      }
+
+      .back-button {
+        display: inline-block;
+        color: #00ff88;
+        text-decoration: none;
+        border: 2px solid #00ff88;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background-color: #00ff88;
+        color: #0f0f0f;
+      }
+
+      .card {
+        background-color: #1a1a1a;
+        border: 2px solid #00ff88;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 24px;
+        box-shadow: 0 10px 40px rgba(0, 255, 136, 0.15);
+      }
+
+      .card h2 {
+        color: #00ff88;
+        margin-bottom: 20px;
+        font-size: 22px;
+      }
+
+      .profile-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+      }
+
+      .profile-row:last-child {
+        border-bottom: none;
+      }
+
+      .profile-row .label {
+        color: #888;
+        font-size: 14px;
+      }
+
+      .profile-row .value {
+        font-weight: bold;
+        font-size: 15px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .stat-box {
+        background-color: #0f0f0f;
+        border: 2px solid rgba(0, 255, 136, 0.3);
+        border-radius: 10px;
+        padding: 18px;
+        text-align: center;
+      }
+
+      .stat-box .stat-value {
+        font-size: 26px;
+        font-weight: bold;
+        color: #00ff88;
+        margin-bottom: 6px;
+      }
+
+      .stat-box .stat-label {
+        font-size: 12px;
+        color: #888;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        text-decoration: none;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background-color: #00ff88;
+        color: #0f0f0f;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4);
+      }
+
+      .btn-danger {
+        background-color: transparent;
+        color: #ff006e;
+        border: 2px solid #ff006e;
+      }
+
+      .btn-danger:hover {
+        background-color: #ff006e;
+        color: #fff;
+      }
+
+      .card-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .loading-state {
+        text-align: center;
+        color: #888;
+        padding: 40px;
+      }
+
+      .bonus-note {
+        font-size: 12px;
+        color: #666;
+        margin-top: 12px;
+      }
+
+      @media (max-width: 600px) {
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>👤 Профіль абонента</h1>
+      <p>Особистий кабінет E-Bike</p>
+    </header>
+
+    <div class="container">
+      <div class="nav-links">
+        <a href="index.html" class="back-button">← Повернутися на головну</a>
+        <a href="my-trips.html" class="back-button">🚴 Мої поїздки</a>
+      </div>
+
+      <div id="loadingState" class="loading-state">Завантажуємо профіль...</div>
+
+      <div id="notLoggedIn" class="card" style="display: none">
+        <h2>🔒 Ти ще не авторизований</h2>
+        <p style="color: #888; margin-bottom: 20px">
+          Особистий кабінет доступний тільки після входу в акаунт.
+        </p>
+        <div class="card-actions">
+          <a href="auth.html" class="btn btn-primary">🔐 Увійти або зареєструватися</a>
+        </div>
+      </div>
+
+      <div id="profileContent" style="display: none">
+        <div class="card">
+          <h2>Дані абонента</h2>
+          <div class="profile-row">
+            <span class="label">Ім'я</span>
+            <span class="value" id="profileName">—</span>
+          </div>
+          <div class="profile-row">
+            <span class="label">Email</span>
+            <span class="value" id="profileEmail">—</span>
+          </div>
+          <div class="profile-row">
+            <span class="label">Телефон</span>
+            <span class="value" id="profilePhone">—</span>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-danger" onclick="logout()">
+              🚪 Вийти з акаунта
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Статистика абонемента</h2>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-value" id="statTrips">0</div>
+              <div class="stat-label">Поїздок</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statSpent">0₴</div>
+              <div class="stat-label">Витрачено</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="statBonus">0</div>
+              <div class="stat-label">Бонусних балів</div>
+            </div>
+          </div>
+          <p class="bonus-note">
+            Нараховується 1 бал за кожні 10₴ оплачених поїздок.
+          </p>
+          <div class="card-actions">
+            <a href="my-trips.html" class="btn btn-primary"
+              >📋 Дивитися всі поїздки</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE_URL = "http://localhost:3000/api";
+
+      async function loadProfile() {
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          document.getElementById("loadingState").style.display = "none";
+          document.getElementById("notLoggedIn").style.display = "block";
+          return;
+        }
+
+        try {
+          // Дані користувача
+          const meRes = await fetch(`${API_BASE_URL}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const meData = await meRes.json();
+
+          if (!meData.success) {
+            // Токен недійсний
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("userName");
+            document.getElementById("loadingState").style.display = "none";
+            document.getElementById("notLoggedIn").style.display = "block";
+            return;
+          }
+
+          document.getElementById("profileName").textContent =
+            meData.data.name || "—";
+          document.getElementById("profileEmail").textContent =
+            meData.data.email || "—";
+          document.getElementById("profilePhone").textContent =
+            meData.data.phone || "—";
+
+          // Статистика поїздок
+          const tripsRes = await fetch(`${API_BASE_URL}/trips/my`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const tripsData = await tripsRes.json();
+
+          if (tripsData.success) {
+            const trips = tripsData.data || [];
+            const totalTrips = trips.length;
+            const totalSpent = trips.reduce(
+              (sum, trip) => sum + (trip.totalPrice || 0),
+              0,
+            );
+            const bonusPoints = Math.floor(totalSpent / 10);
+
+            document.getElementById("statTrips").textContent = totalTrips;
+            document.getElementById("statSpent").textContent =
+              totalSpent + "₴";
+            document.getElementById("statBonus").textContent = bonusPoints;
+          }
+
+          document.getElementById("loadingState").style.display = "none";
+          document.getElementById("profileContent").style.display = "block";
+        } catch (error) {
+          document.getElementById("loadingState").textContent =
+            "❌ Не вдалося завантажити профіль: " + error.message;
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userName");
+        window.location.href = "auth.html";
+      }
+
+      loadProfile();
+    </script>
+  </body>
+</html>

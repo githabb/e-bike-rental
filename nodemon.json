@@ -1,0 +1,15 @@
+{
+  "watch": ["server.js"],
+  "ignore": [
+    "database.sqlite",
+    "database.sqlite-journal",
+    "database.sqlite-wal",
+    "database.sqlite-shm",
+    ".env",
+    "node_modules",
+    "*.html",
+    "*.css",
+    "script.js"
+  ],
+  "ext": "js"
+}
