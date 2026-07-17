@@ -12,7 +12,7 @@
 
 // ==================== КОНФІГУРАЦІЯ ====================
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = '/api';
 
 // ==================== ОБ'ЄКТИ ТА ЗМІННІ ====================
 
@@ -253,7 +253,7 @@ async function handleFormSubmit(event) {
     // Проверяем сервер
     const serverOk = await checkServerHealth();
     if (!serverOk) {
-        showErrorMessage('Сервер недоступний. Перевір, чи запущений сервер на http://localhost:3000');
+        showErrorMessage('Сервер недоступний. Спробуй оновити сторінку або звернись до підтримки.');
         return;
     }
     
@@ -518,7 +518,7 @@ async function init() {
         console.log('%c✅ Підключення до сервера встановлено', 'color: #00ff88; font-weight: bold;');
     } else {
         console.warn('%c⚠️ Сервер недоступний', 'color: #ffea00; font-weight: bold;');
-        showToast('⚠️ Сервер недоступний. Перевір, чи запущений сервер на http://localhost:3000', 'error');
+        showToast('⚠️ Сервер недоступний. Спробуй оновити сторінку.', 'error');
     }
     
     console.log('%c✅ Лендинг готовий!', 'font-size: 16px; color: #00ff88; font-weight: bold;');
