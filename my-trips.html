@@ -452,9 +452,7 @@
         <button class="btn btn-secondary" onclick="downloadReport()">
           📊 Завантажити звіт
         </button>
-        <button class="btn btn-secondary" onclick="printPage()">
-          🖨️ Друк
-        </button>
+        <button class="btn btn-secondary" onclick="printPage()">🖨️ Друк</button>
       </div>
 
       <!-- СТАТИСТИКА -->
@@ -490,7 +488,9 @@
 
       <!-- ВКЛАДКА: ПОЇЗДКИ -->
       <div id="trips" class="tab-content active">
-        <div id="tripsContainer" class="loading">⏳ Завантаження поїздок...</div>
+        <div id="tripsContainer" class="loading">
+          ⏳ Завантаження поїздок...
+        </div>
       </div>
 
       <!-- ВКЛАДКА: АНАЛІТИКА -->
@@ -529,7 +529,7 @@
     </div>
 
     <script>
-      const API_BASE_URL = "http://localhost:3000/api";
+      const API_BASE_URL = "/api";
       let allTrips = [];
       let spendingChart, bikesChart, hoursChart;
 
