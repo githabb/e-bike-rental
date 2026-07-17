@@ -1,311 +1,102 @@
-<!doctype html>
-<html lang="uk">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Замовлення (адмін) - E-Bike</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+<script>
+  let allOrders = [];
+  let currentFilter = "all";
+
+  async function loadOrders() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders`);
+      const data = await response.json();
+
+      if (data.success) {
+        allOrders = data.data;
+        document.getElementById("loadingState").style.display = "none";
+        renderOrders();
+      } else {
+        document.getElementById("loadingState").textContent =
+          "❌ Не вдалося завантажити замовлення: " + data.error;
+      }
+    } catch (error) {
+      document.getElementById("loadingState").textContent =
+        "❌ Помилка підключення до сервера: " + error.message;
+    }
+  }
+
+  function renderOrders() {
+    let filtered = allOrders;
+
+    if (currentFilter === "paid") {
+      filtered = allOrders.filter((o) => o.paymentStatus === "paid");
+    } else if (currentFilter === "pending") {
+      filtered = allOrders.filter(
+        (o) => o.paymentStatus !== "paid" && o.orderStatus !== "cancelled",
+      );
+    } else if (currentFilter === "cancelled") {
+      filtered = allOrders.filter((o) => o.orderStatus === "cancelled");
+    }
+
+    document.getElementById("summary").textContent =
+      `Показано ${filtered.length} з ${allOrders.length} замовлень`;
+
+    const tbody = document.getElementById("ordersBody");
+    tbody.innerHTML = "";
+
+    if (filtered.length === 0) {
+      document.getElementById("tableWrap").style.display = "none";
+      document.getElementById("emptyState").style.display = "block";
+      return;
+    }
+
+    document.getElementById("emptyState").style.display = "none";
+    document.getElementById("tableWrap").style.display = "block";
+
+    filtered.forEach((order) => {
+      const tr = document.createElement("tr");
+
+      const paymentBadge =
+        order.paymentStatus === "paid"
+          ? '<span class="badge badge-paid">Оплачено</span>'
+          : '<span class="badge badge-pending">Не оплачено</span>';
+
+      let statusBadge = '<span class="badge badge-pending">В очікуванні</span>';
+      if (order.orderStatus === "completed") {
+        statusBadge = '<span class="badge badge-completed">Завершена</span>';
+      } else if (order.orderStatus === "cancelled") {
+        statusBadge = '<span class="badge badge-cancelled">Скасована</span>';
       }
 
-      body {
-        background-color: #0f0f0f;
-        color: #f0f0f0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        min-height: 100vh;
-      }
+      tr.innerHTML = `
+                <td>${order.id}</td>
+                <td>${escapeHtml(order.clientName)}</td>
+                <td>${escapeHtml(order.clientPhone)}</td>
+                <td>${escapeHtml(order.clientEmail)}</td>
+                <td>${escapeHtml(order.bikeName)}</td>
+                <td>${order.rentalDate}</td>
+                <td>${order.duration}</td>
+                <td>${order.totalPrice}₴</td>
+                <td>${paymentBadge}</td>
+                <td>${statusBadge}</td>
+                <td>${new Date(order.createdAt).toLocaleString("uk-UA")}</td>
+            `;
+      tbody.appendChild(tr);
+    });
+  }
 
-      header {
-        background: linear-gradient(135deg, #00ff88, #ffea00);
-        padding: 24px 20px;
-        color: #0f0f0f;
-        text-align: center;
-      }
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str ?? "";
+    return div.innerHTML;
+  }
 
-      header h1 {
-        font-size: 28px;
-        margin-bottom: 6px;
-      }
+  document.querySelectorAll(".filter-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.dataset.filter;
+      renderOrders();
+    });
+  });
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 24px 20px 60px;
-      }
-
-      .back-button {
-        display: inline-block;
-        color: #00ff88;
-        text-decoration: none;
-        border: 2px solid #00ff88;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 13px;
-        margin-bottom: 20px;
-      }
-
-      .back-button:hover {
-        background-color: #00ff88;
-        color: #0f0f0f;
-      }
-
-      .filters {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-      }
-
-      .filter-btn {
-        background-color: #1a1a1a;
-        border: 2px solid rgba(0, 255, 136, 0.3);
-        color: #f0f0f0;
-        padding: 8px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        font-weight: bold;
-        transition: all 0.2s ease;
-      }
-
-      .filter-btn:hover {
-        border-color: #00ff88;
-      }
-
-      .filter-btn.active {
-        background-color: #00ff88;
-        color: #0f0f0f;
-        border-color: #00ff88;
-      }
-
-      .summary {
-        color: #888;
-        font-size: 13px;
-        margin-bottom: 16px;
-      }
-
-      .table-wrap {
-        overflow-x: auto;
-        border: 2px solid rgba(0, 255, 136, 0.2);
-        border-radius: 10px;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 13px;
-      }
-
-      th,
-      td {
-        padding: 10px 12px;
-        text-align: left;
-        white-space: nowrap;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      th {
-        background-color: #1a1a1a;
-        color: #00ff88;
-        position: sticky;
-        top: 0;
-      }
-
-      tbody tr:hover {
-        background-color: rgba(0, 255, 136, 0.05);
-      }
-
-      .badge {
-        display: inline-block;
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: bold;
-      }
-
-      .badge-paid {
-        background-color: rgba(0, 255, 136, 0.2);
-        color: #00ff88;
-      }
-
-      .badge-pending {
-        background-color: rgba(255, 234, 0, 0.15);
-        color: #ffea00;
-      }
-
-      .badge-cancelled {
-        background-color: rgba(255, 0, 110, 0.2);
-        color: #ff006e;
-      }
-
-      .badge-completed {
-        background-color: rgba(0, 200, 255, 0.15);
-        color: #00c8ff;
-      }
-
-      .loading-state,
-      .empty-state {
-        text-align: center;
-        color: #888;
-        padding: 40px;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>📋 Замовлення</h1>
-      <p>Усі брoні з фільтром за статусом оплати</p>
-    </header>
-
-    <div class="container">
-      <a href="index.html" class="back-button">← Повернутися на головну</a>
-
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all">Усі</button>
-        <button class="filter-btn" data-filter="paid">💚 Оплачені</button>
-        <button class="filter-btn" data-filter="pending">⏳ Неоплачені</button>
-        <button class="filter-btn" data-filter="cancelled">🚫 Скасовані</button>
-      </div>
-
-      <div class="summary" id="summary"></div>
-
-      <div id="loadingState" class="loading-state">
-        Завантажуємо замовлення...
-      </div>
-      <div id="emptyState" class="empty-state" style="display: none">
-        Замовлень із таким статусом немає
-      </div>
-
-      <div class="table-wrap" id="tableWrap" style="display: none">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Ім'я</th>
-              <th>Телефон</th>
-              <th>Email</th>
-              <th>Велосипед</th>
-              <th>Дата оренди</th>
-              <th>Годин</th>
-              <th>Сума</th>
-              <th>Оплата</th>
-              <th>Статус брoні</th>
-              <th>Створено</th>
-            </tr>
-          </thead>
-          <tbody id="ordersBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <script>
-      const API_BASE_URL = "/api";
-      let allOrders = [];
-      let currentFilter = "all";
-
-      async function loadOrders() {
-        try {
-          const response = await fetch(`${API_BASE_URL}/orders`);
-          const data = await response.json();
-
-          if (data.success) {
-            allOrders = data.data;
-            document.getElementById("loadingState").style.display = "none";
-            renderOrders();
-          } else {
-            document.getElementById("loadingState").textContent =
-              "❌ Не вдалося завантажити замовлення: " + data.error;
-          }
-        } catch (error) {
-          document.getElementById("loadingState").textContent =
-            "❌ Помилка підключення до сервера: " + error.message;
-        }
-      }
-
-      function renderOrders() {
-        let filtered = allOrders;
-
-        if (currentFilter === "paid") {
-          filtered = allOrders.filter((o) => o.paymentStatus === "paid");
-        } else if (currentFilter === "pending") {
-          filtered = allOrders.filter(
-            (o) => o.paymentStatus !== "paid" && o.orderStatus !== "cancelled",
-          );
-        } else if (currentFilter === "cancelled") {
-          filtered = allOrders.filter((o) => o.orderStatus === "cancelled");
-        }
-
-        document.getElementById("summary").textContent =
-          `Показано ${filtered.length} з ${allOrders.length} замовлень`;
-
-        const tbody = document.getElementById("ordersBody");
-        tbody.innerHTML = "";
-
-        if (filtered.length === 0) {
-          document.getElementById("tableWrap").style.display = "none";
-          document.getElementById("emptyState").style.display = "block";
-          return;
-        }
-
-        document.getElementById("emptyState").style.display = "none";
-        document.getElementById("tableWrap").style.display = "block";
-
-        filtered.forEach((order) => {
-          const tr = document.createElement("tr");
-
-          const paymentBadge =
-            order.paymentStatus === "paid"
-              ? '<span class="badge badge-paid">Оплачено</span>'
-              : '<span class="badge badge-pending">Не оплачено</span>';
-
-          let statusBadge =
-            '<span class="badge badge-pending">В очікуванні</span>';
-          if (order.orderStatus === "completed") {
-            statusBadge =
-              '<span class="badge badge-completed">Завершена</span>';
-          } else if (order.orderStatus === "cancelled") {
-            statusBadge =
-              '<span class="badge badge-cancelled">Скасована</span>';
-          }
-
-          tr.innerHTML = `
-            <td>${order.id}</td>
-            <td>${escapeHtml(order.clientName)}</td>
-            <td>${escapeHtml(order.clientPhone)}</td>
-            <td>${escapeHtml(order.clientEmail)}</td>
-            <td>${escapeHtml(order.bikeName)}</td>
-            <td>${order.rentalDate}</td>
-            <td>${order.duration}</td>
-            <td>${order.totalPrice}₴</td>
-            <td>${paymentBadge}</td>
-            <td>${statusBadge}</td>
-            <td>${new Date(order.createdAt).toLocaleString("uk-UA")}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
-
-      function escapeHtml(str) {
-        const div = document.createElement("div");
-        div.textContent = str ?? "";
-        return div.innerHTML;
-      }
-
-      document.querySelectorAll(".filter-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document
-            .querySelectorAll(".filter-btn")
-            .forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          currentFilter = btn.dataset.filter;
-          renderOrders();
-        });
-      });
-
-      loadOrders();
-    </script>
-  </body>
-</html>
+  loadOrders();
+</script>
