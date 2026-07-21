@@ -29,7 +29,10 @@
 
           <!-- Кнопки в шапці -->
           <div class="header__actions">
-            <a href="profile.html" class="btn btn--secondary">
+            <a
+              href="http://localhost:3000/profile.html"
+              class="btn btn--secondary"
+            >
               👤 Профіль абонента
             </a>
           </div>
@@ -98,7 +101,11 @@
         <h2 class="section-title">Наш парк велосипедів</h2>
 
         <div class="gallery__grid">
-          <div class="gallery-item">
+          <div
+            class="gallery-item"
+            data-bike-id="1"
+            data-bike-name="E-Bike Classic"
+          >
             <div class="gallery-item__image">🚴‍♂️</div>
             <h3 class="gallery-item__title">E-Bike Classic</h3>
             <p class="gallery-item__description">
@@ -111,7 +118,11 @@
             </div>
           </div>
 
-          <div class="gallery-item gallery-item--featured">
+          <div
+            class="gallery-item gallery-item--featured"
+            data-bike-id="2"
+            data-bike-name="E-Bike Premium"
+          >
             <div class="gallery-item__badge">🌟 Найкращий вибір</div>
             <div class="gallery-item__image">🚴‍♀️</div>
             <h3 class="gallery-item__title">E-Bike Premium</h3>
@@ -125,7 +136,11 @@
             </div>
           </div>
 
-          <div class="gallery-item">
+          <div
+            class="gallery-item"
+            data-bike-id="3"
+            data-bike-name="E-Bike Cargo"
+          >
             <div class="gallery-item__image">🛴</div>
             <h3 class="gallery-item__title">E-Bike Cargo</h3>
             <p class="gallery-item__description">
@@ -160,10 +175,8 @@
             <div class="benefit-card__icon">🌿</div>
             <h3 class="benefit-card__title">Екологічно</h3>
             <p class="benefit-card__text">
-              <<<<<<< HEAD Нульові викиди. Подорожуй, не забруднюючи довкілля і
-              не створюючи шум у місті. ======= Нульові викиди. Подорожуй, не
-              забруднюючи довкілля і не створюючи шум у місті. >>>>>>>
-              c56a9b1fdce8cb78094e74ad5fc76cbabdb257c9
+              Нульові викиди. Подорожуй, не забруднюючи довкілля і не створюючи
+              шум у місті.
             </p>
           </div>
 
@@ -285,10 +298,8 @@
           <div class="review-card">
             <div class="review-card__stars">⭐⭐⭐⭐⭐</div>
             <p class="review-card__text">
-              <<<<<<< HEAD "Це просто магія! Швидко, зручно і весело. Об'їхала
-              все місто на E-Bike за один день!" ======= "Це просто магія!
-              Швидко, зручно і весело. Об'їхала все місто на E-Bike за один
-              день!" >>>>>>> c56a9b1fdce8cb78094e74ad5fc76cbabdb257c9
+              "Це просто магія! Швидко, зручно і весело. Об'їхала все місто на
+              E-Bike за один день!"
             </p>
             <div class="review-card__author">
               <div class="review-card__avatar">👩</div>
@@ -427,6 +438,18 @@
                 placeholder="+380 (50) 123-45-67"
                 required
               />
+            </div>
+
+            <div class="form-group">
+              <label for="bikeModel" class="form-label"
+                >Модель велосипеда</label
+              >
+              <select id="bikeModel" class="form-input" required>
+                <option value="">Обери модель</option>
+                <option value="1|E-Bike Classic">E-Bike Classic</option>
+                <option value="2|E-Bike Premium">E-Bike Premium 🌟</option>
+                <option value="3|E-Bike Cargo">E-Bike Cargo</option>
+              </select>
             </div>
 
             <div class="form-group">

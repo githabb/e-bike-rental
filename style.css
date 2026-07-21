@@ -440,6 +440,25 @@ body {
   transform: scale(1.05);
 }
 
+.gallery-item--selected {
+  border-color: var(--color-secondary);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(255, 234, 0, 0.25);
+}
+
+.gallery-item--selected::after {
+  content: "✓ Обрано";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--color-secondary);
+  color: var(--color-dark);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+}
+
 .gallery-item__badge {
   position: absolute;
   top: 10px;

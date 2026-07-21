@@ -30,10 +30,40 @@ const elements = {
     nameInput: document.getElementById('name'),
     emailInput: document.getElementById('email'),
     phoneInput: document.getElementById('phone'),
+    bikeModelInput: document.getElementById('bikeModel'),
     dateInput: document.getElementById('date'),
     durationInput: document.getElementById('duration'),
     priceDisplay: document.getElementById('priceDisplay'),
+
+    // Галерея велосипедів
+    galleryItems: document.querySelectorAll('.gallery-item'),
 };
+
+// ==================== ВИБІР МОДЕЛІ ВЕЛОСИПЕДА ====================
+
+/**
+ * Обрати велосипед: підставити в форму і підсвітити картку в галереї
+ */
+function selectBike(bikeId, bikeName) {
+    if (elements.bikeModelInput) {
+        elements.bikeModelInput.value = `${bikeId}|${bikeName}`;
+    }
+    highlightSelectedBikeCard(bikeId);
+    smoothScroll('#booking');
+}
+
+/**
+ * Підсвітити обрану картку в галереї, знявши підсвітку з інших
+ */
+function highlightSelectedBikeCard(bikeId) {
+    elements.galleryItems.forEach(item => {
+        if (item.dataset.bikeId === String(bikeId)) {
+            item.classList.add('gallery-item--selected');
+        } else {
+            item.classList.remove('gallery-item--selected');
+        }
+    });
+}
 
 // ==================== ДОПОМІЖНІ ФУНКЦІЇ ====================
 
@@ -120,6 +150,7 @@ function showSuccessMessage(message) {
 function clearForm() {
     elements.bookingForm.reset();
     elements.priceDisplay.innerHTML = '';
+    highlightSelectedBikeCard(null);
 }
 
 function disableSubmitButton() {
@@ -161,6 +192,12 @@ function validateForm() {
         return false;
     }
     
+    if (!elements.bikeModelInput.value) {
+        showErrorMessage('Будь ласка, обери модель велосипеда');
+        elements.bikeModelInput.focus();
+        return false;
+    }
+    
     if (!date) {
         showErrorMessage('Будь ласка, обери дату бронювання');
         elements.dateInput.focus();
@@ -187,13 +224,14 @@ function validateForm() {
 function getFormData() {
     const duration = parseInt(elements.durationInput.value);
     const totalPrice = duration * 50;
+    const [bikeId, bikeName] = elements.bikeModelInput.value.split('|');
     
     return {
         clientName: elements.nameInput.value.trim(),
         clientEmail: elements.emailInput.value.trim(),
         clientPhone: elements.phoneInput.value.trim(),
-        bikeId: 1,
-        bikeName: 'E-Bike Classic',
+        bikeId: parseInt(bikeId),
+        bikeName: bikeName,
         rentalDate: elements.dateInput.value,
         duration: duration,
         totalPrice: totalPrice
@@ -353,6 +391,25 @@ function initEventListeners() {
         });
     });
     
+    // Вибір моделі велосипеда кліком по картці в галереї
+    elements.galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const bikeId = item.dataset.bikeId;
+            const bikeName = item.dataset.bikeName;
+            if (bikeId && bikeName) {
+                selectBike(bikeId, bikeName);
+            }
+        });
+    });
+
+    // Вибір моделі велосипеда через випадаючий список у формі
+    if (elements.bikeModelInput) {
+        elements.bikeModelInput.addEventListener('change', () => {
+            const [bikeId] = elements.bikeModelInput.value.split('|');
+            highlightSelectedBikeCard(bikeId);
+        });
+    }
+
     // Валідація email
     if (elements.emailInput) {
         elements.emailInput.addEventListener('blur', () => {
