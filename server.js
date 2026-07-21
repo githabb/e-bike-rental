@@ -32,9 +32,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, ''))); 
 
-app.use('/api/auth', authRoutes); 
-app.use('/api/trips', tripsRoutes);
-
 app.get('/payment-success.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'payment-success.html'));
 });
@@ -798,8 +795,6 @@ app.use((req, res) => {
 });
 
 // ==================== ЗАПУСК СЕРВЕРА ====================
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log('\n╔════════════════════════════════════════╗');
