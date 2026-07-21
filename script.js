@@ -271,6 +271,25 @@ function calculateAndDisplayPrice() {
     const totalPrice = calculateTotalPrice(hours);
     elements.priceDisplay.textContent = `💰 Підсумкова ціна: ${totalPrice} ₴`;
     elements.priceDisplay.style.display = 'block';
+
+    highlightSelectedPricingCard(hours);
+}
+
+/**
+ * Підсвічує картку тарифу, яка відповідає реально вибраній тривалості,
+ * а не завжди картку "Популярно".
+ */
+function highlightSelectedPricingCard(hours) {
+    document.querySelectorAll('.pricing-card').forEach((card) => {
+        card.classList.remove('pricing-card--selected');
+    });
+
+    const activeBtn = document.querySelector(
+        `.pricing-card__btn[data-hours="${hours}"]`
+    );
+    if (activeBtn) {
+        activeBtn.closest('.pricing-card')?.classList.add('pricing-card--selected');
+    }
 }
 
 // ==================== ОБРОБКА ФОРМИ ====================
