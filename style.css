@@ -600,6 +600,12 @@ body {
 }
 
 .pricing-card--popular {
+  /* Бейдж "Популярно" залишається тільки візуальною міткою -
+     підсвітка рамки тепер керується класом --selected нижче,
+     і з'являється лише на картці, яку людина реально обрала. */
+}
+
+.pricing-card--selected {
   border-color: var(--color-primary);
   transform: scale(1.05);
   box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
@@ -1053,7 +1059,7 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .pricing-card--popular {
+  .pricing-card--selected {
     transform: scale(1);
   }
 
