@@ -312,6 +312,22 @@ async function capturePayPalOrder(paypalOrderId) {
     }
 }
 
+// ==================== ТАРИФИ ====================
+// Джерело правди для цін - той самий список, що й у select#duration на
+// фронтенді. Сервер більше НЕ довіряє totalPrice, який присилає браузер, -
+// рахує сам за duration, щоб ціну не можна було підмінити в DevTools/Postman.
+const PRICING_TABLE = {
+    1: 50,
+    4: 150,
+    8: 300,
+    24: 250
+};
+
+function getOfficialPrice(duration) {
+    const key = parseInt(duration, 10);
+    return PRICING_TABLE[key] !== undefined ? PRICING_TABLE[key] : null;
+}
+
 // ==================== API ENDPOINTS ====================
 
 // 1. Перевірка сервера
@@ -347,10 +363,20 @@ app.post('/api/payment/paypal/create', optionalAuth, async (req, res) => {
         });
     }
 
+    // Сервер сам рахує офіційну ціну за тривалістю - те, що прислав
+    // браузер у totalPrice, тут більше не використовується для оплати.
+    const officialPrice = getOfficialPrice(duration);
+    if (officialPrice === null) {
+        return res.status(400).json({
+            success: false,
+            error: 'Некоректна тривалість оренди'
+        });
+    }
+
     try {
-        // Створюємо PayPal замовлення
+        // Створюємо PayPal замовлення на офіційну (перераховану сервером) ціну
         const paypalOrder = await createPayPalOrder(
-            totalPrice,
+            officialPrice,
             `E-Bike Rental - ${bikeName || 'E-Bike Classic'} (${rentalDate})`
         );
 
@@ -365,7 +391,7 @@ app.post('/api/payment/paypal/create', optionalAuth, async (req, res) => {
             bikeName: bikeName || 'E-Bike Classic',
             rentalDate,
             duration,
-            totalPrice,
+            totalPrice: officialPrice,
             userId: req.userId || null // якщо людина була залогінена в момент оплати
         });
 
@@ -796,12 +822,11 @@ app.use((req, res) => {
 
 // ==================== ЗАПУСК СЕРВЕРА ====================
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log('\n╔════════════════════════════════════════╗');
     console.log('║   ⚡ E-Bike Rentals Backend запущено   ║');
     console.log('╚════════════════════════════════════════╝\n');
-    console.log(`🚀 Сервер працює на порту ${PORT}`);
-    
+    console.log(`🚀 Сервер працює на http://localhost:${PORT}`);
     console.log('\n📝 API endpoints:');
     console.log('   POST /api/payment/paypal/create - створити PayPal платіж');
     console.log('   POST /api/payment/paypal/capture - підтвердити платіж');
