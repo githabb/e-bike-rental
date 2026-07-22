@@ -256,8 +256,24 @@ async function checkServerHealth() {
 
 // ==================== РОЗРАХУНОК ЦІНИ ====================
 
+// Тарифи повинні точно збігатися з тими, що показані в select#duration
+// в index.html - це не проста погодинна ставка (24 години дешевші за 8,
+// це знижка за повну добу, так задумано).
+const PRICING_TABLE = {
+    1: 50,
+    4: 150,
+    8: 300,
+    24: 250
+};
+
 function calculateTotalPrice(hours) {
-    return hours * 50;
+    const key = parseInt(hours, 10);
+    if (PRICING_TABLE[key] !== undefined) {
+        return PRICING_TABLE[key];
+    }
+    // Про запас, якщо колись з'явиться тривалість поза таблицею -
+    // не повинно траплятися при виборі зі select, але захищаємось.
+    return key * 50;
 }
 
 function calculateAndDisplayPrice() {
